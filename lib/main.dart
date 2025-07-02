@@ -13,7 +13,7 @@ void main() async {
   if (!Hive.isAdapterRegistered(StudentModelAdapter().typeId)) {
     Hive.registerAdapter(StudentModelAdapter());
   }
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: const Color.fromARGB(255, 61, 59, 59),
       ),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }
@@ -43,18 +43,19 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     getData();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CupertinoColors.systemGrey,
-        title: Text(
+        title: const Text(
           'Home Screen',
-          style: TextStyle(color: const Color.fromARGB(255, 66, 225, 164)),
+          style: TextStyle(color: Color.fromARGB(255, 66, 225, 164)),
         ),
         centerTitle: true,
       ),
       body: ValueListenableBuilder(
-        
         valueListenable: valueNotifier,
         builder: (context, studentlist, child) {
           print('${studentlist.length}');
@@ -63,15 +64,15 @@ class HomeScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final student = studentlist[index];
               return Padding(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(screenWidth * 0.02),
                 child: Card(
                   color: Colors.grey[800],
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
+                    padding: EdgeInsets.only(bottom: screenHeight * 0.02),
                     child: ListTile(
                       leading: CircleAvatar(
-                        child: Icon(CupertinoIcons.person_alt_circle),
-                        radius: 50,
+                        radius: screenWidth * 0.10,
+                        child: const Icon(CupertinoIcons.person_alt_circle),
                       ),
                       title: GestureDetector(
                         onTap: () {
@@ -83,12 +84,12 @@ class HomeScreen extends StatelessWidget {
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       CupertinoIcons.person_circle_fill,
                                       color: Colors.white,
                                       size: 100,
                                     ),
-                                    SizedBox(height: 25),
+                                    SizedBox(height: screenHeight * 0.03),
                                     Row(
                                       children: [
                                         Text(
@@ -96,13 +97,17 @@ class HomeScreen extends StatelessWidget {
                                           style: TextStyle(
                                               color: Colors.teal[400]),
                                         ),
-                                        Text(
-                                          student.name,
-                                          style: TextStyle(color: Colors.white),
+                                        Flexible(
+                                          child: Text(
+                                            student.name,
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         )
                                       ],
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: screenHeight * 0.015),
                                     Row(
                                       children: [
                                         Text(
@@ -110,13 +115,17 @@ class HomeScreen extends StatelessWidget {
                                           style: TextStyle(
                                               color: Colors.teal[400]),
                                         ),
-                                        Text(
-                                          student.place,
-                                          style: TextStyle(color: Colors.white),
+                                        Flexible(
+                                          child: Text(
+                                            student.place,
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         )
                                       ],
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: screenHeight * 0.015),
                                     Row(
                                       children: [
                                         Text(
@@ -124,9 +133,13 @@ class HomeScreen extends StatelessWidget {
                                           style: TextStyle(
                                               color: Colors.teal[400]),
                                         ),
-                                        Text(
-                                          student.phone,
-                                          style: TextStyle(color: Colors.white),
+                                        Flexible(
+                                          child: Text(
+                                            student.phone,
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         )
                                       ],
                                     )
@@ -139,16 +152,16 @@ class HomeScreen extends StatelessWidget {
                         child: Text(
                           student.name,
                           style: TextStyle(
-                            fontSize: 21,
-                            fontWeight: FontWeight.bold, 
+                            fontSize: screenWidth * 0.05,
+                            fontWeight: FontWeight.bold,
                             color: const Color.fromARGB(255, 66, 225, 164),
                           ),
                         ),
                       ),
                       subtitle: Text(
                         student.place,
-                        style: TextStyle(
-                            color: const Color.fromARGB(255, 245, 21, 5)),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 245, 21, 5)),
                       ),
                       trailing: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -167,13 +180,13 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   ));
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.edit,
                               color: Color.fromARGB(255, 66, 225, 164),
                             ),
                           ),
                           GestureDetector(
-                            child: Icon(
+                            child: const Icon(
                               Icons.delete,
                               color: Color.fromARGB(255, 245, 21, 5),
                             ),
@@ -190,9 +203,9 @@ class HomeScreen extends StatelessWidget {
                                             'Do you want to delete this\n               student',
                                             style: TextStyle(
                                                 color: Colors.teal[400],
-                                                fontSize: 15),
+                                                fontSize: screenWidth * 0.04),
                                           ),
-                                          SizedBox(height: 60),
+                                          SizedBox(height: screenHeight * 0.08),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceAround,
@@ -204,12 +217,12 @@ class HomeScreen extends StatelessWidget {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            HomeScreen(),
+                                                            const HomeScreen(),
                                                       ),
                                                       (route) => false,
                                                     );
                                                   },
-                                                  child: Text(
+                                                  child: const Text(
                                                     'Cancel',
                                                     style: TextStyle(
                                                         color: Colors.white),
@@ -219,7 +232,7 @@ class HomeScreen extends StatelessWidget {
                                                     deleteStiudent(index);
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text(
+                                                  child: const Text(
                                                     'Delete',
                                                     style: TextStyle(
                                                         color: Colors.red),
@@ -245,7 +258,7 @@ class HomeScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 66, 225, 164),
+        backgroundColor: const Color.fromARGB(255, 66, 225, 164),
         onPressed: () {
           Navigator.push(
             context,

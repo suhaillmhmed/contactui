@@ -20,6 +20,8 @@ class _SecondScreenState extends State<SecondScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 61, 59, 59),
       appBar: AppBar(
@@ -29,88 +31,90 @@ class _SecondScreenState extends State<SecondScreen> {
           style: TextStyle(color: Color.fromARGB(255, 66, 225, 164)),
         ),
         centerTitle: true,
-      ),      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: imagePath != null
-                  ? FileImage(File(imagePath!.path))
-                  : NetworkImage(
-                      'https://th.bing.com/th/id/R.6b0022312d41080436c52da571d5c697?rik=ejx13G9ZroRrcg&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fuser-png-icon-young-user-icon-2400.png&ehk=NNF6zZUBr0n5i%2fx0Bh3AMRDRDrzslPXB0ANabkkPyv0%3d&risl=&pid=ImgRaw&r=0'),
-            ),
-            const SizedBox(
-              height: 14,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  getImage();
-                },
-                child: const Text('Add photo')),
-            const SizedBox(
-              height: 12,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextFormField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                    hintText: 'Name',
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Colors.white),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(screenWidth * 0.02),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: screenWidth * 0.10,
+                backgroundImage: imagePath != null
+                    ? FileImage(File(imagePath!.path))
+                    : const NetworkImage(
+                            'https://th.bing.com/th/id/R.6b0022312d41080436c52da571d5c697?rik=ejx13G9ZroRrcg&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fuser-png-icon-young-user-icon-2400.png&ehk=NNF6zZUBr0n5i%2fx0Bh3AMRDRDrzslPXB0ANabkkPyv0%3d&risl=&pid=ImgRaw&r=0')
+                        as ImageProvider,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextFormField(
-                controller: placeController,
-                decoration: const InputDecoration(
-                    hintText: 'Place',
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Colors.white),
+              SizedBox(
+                height: screenHeight * 0.02,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextFormField(
-                controller: phoneController,
-                decoration: const InputDecoration(
-                    hintText: 'Mobile',
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Colors.white),
+              ElevatedButton(
+                  onPressed: () {
+                    getImage();
+                  },
+                  child: const Text('Add photo')),
+              SizedBox(
+                height: screenHeight * 0.015,
               ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                final data = StudentModel(
-                    name: nameController.text,
-                    place: placeController.text,
-                    phone: phoneController.text,
-                    photopath: imagePath!.path);
+              Padding(
+                padding: EdgeInsets.all(screenWidth * 0.025),
+                child: TextFormField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                      hintText: 'Name',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(screenWidth * 0.025),
+                child: TextFormField(
+                  controller: placeController,
+                  decoration: const InputDecoration(
+                      hintText: 'Place',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(screenWidth * 0.025),
+                child: TextFormField(
+                  controller: phoneController,
+                  decoration: const InputDecoration(
+                      hintText: 'Mobile',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  final data = StudentModel(
+                      name: nameController.text,
+                      place: placeController.text,
+                      phone: phoneController.text,
+                      photopath: imagePath!.path);
 
-                print(data.name);
-                await addStudent(data);
-              },
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: Colors.teal[400]),
-              child: const Text(
-                'Submit',
-                style: TextStyle(color: Colors.black),
-              ),
-            )
-          ],
+                  await addStudent(data);
+                },
+                style:
+                    ElevatedButton.styleFrom(backgroundColor: Colors.teal[400]),
+                child: const Text(
+                  'Submit',
+                  style: TextStyle(color: Colors.black),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
-
 
   void getImage() async {
     ImagePicker picker = ImagePicker();

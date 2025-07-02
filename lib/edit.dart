@@ -31,6 +31,8 @@ class _ThirdScreenState extends State<ThirdScreen> {
   File? imagePath;
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     TextEditingController editNameController =
         TextEditingController(text: widget.name);
     TextEditingController editPlaceController =
@@ -48,84 +50,86 @@ class _ThirdScreenState extends State<ThirdScreen> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Icon(
-              CupertinoIcons.person_circle_fill,
-              color: Colors.white,
-              size: 90,
-            ),
-            const SizedBox(
-              height: 14,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  getImage();
-                },
-                child: const Text('Edit Photo')),
-            const SizedBox(
-              height: 12,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextFormField(
-                controller: editNameController,
-                decoration: const InputDecoration(
-                    hintText: 'Name',
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Colors.white),
+        padding: EdgeInsets.all(screenWidth * 0.02),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                CupertinoIcons.person_circle_fill,
+                color: Colors.white,
+                size: 90,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextFormField(
-                controller: editPlaceController,
-                decoration: const InputDecoration(
-                    hintText: 'Place',
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Colors.white),
+              SizedBox(
+                height: screenHeight * 0.02,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextFormField(
-                controller: editPhoneController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Colors.white),
+              ElevatedButton(
+                  onPressed: () {
+                    getImage();
+                  },
+                  child: const Text('Edit Photo')),
+              SizedBox(
+                height: screenHeight * 0.015,
               ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            ElevatedButton(
-                onPressed: () async {
-                  final data = StudentModel(
-                      name: editNameController.text,
-                      place: editPlaceController.text,
-                      phone: editPhoneController.text,
-                      photopath: imagePath!.path);
-                  editStudent(widget.index, data);
-                  Navigator.pop(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
-                    ),
-                  );
-                },
-                style:
-                    ElevatedButton.styleFrom(backgroundColor: Colors.teal[600]),
-                child: const Text(
-                  'Save',
-                  style: TextStyle(color: Colors.black),
-                ))
-          ],
+              Padding(
+                padding: EdgeInsets.all(screenWidth * 0.025),
+                child: TextFormField(
+                  controller: editNameController,
+                  decoration: const InputDecoration(
+                      hintText: 'Name',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(screenWidth * 0.025),
+                child: TextFormField(
+                  controller: editPlaceController,
+                  decoration: const InputDecoration(
+                      hintText: 'Place',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(screenWidth * 0.025),
+                child: TextFormField(
+                  controller: editPhoneController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white),
+                ),
+              ),
+              SizedBox(
+                height: screenHeight * 0.04,
+              ),
+              ElevatedButton(
+                  onPressed: () async {
+                    final data = StudentModel(
+                        name: editNameController.text,
+                        place: editPlaceController.text,
+                        phone: editPhoneController.text,
+                        photopath: imagePath!.path);
+                    editStudent(widget.index, data);
+                    Navigator.pop(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.teal[600]),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(color: Colors.black),
+                  ))
+            ],
+          ),
         ),
       ),
     );

@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 
 ValueNotifier<List<StudentModel>> valueNotifier = ValueNotifier([]);
 
-final dbName = 'studentDB';
+const dbName = 'studentDB';
 
 Future<void> addStudent(StudentModel data) async {
   final db = await Hive.openBox<StudentModel>(dbName);
